@@ -15,7 +15,6 @@
     <meta property="og:url" content="https://leonidovkuza-prog.github.io/repetitors/">
     <meta property="og:title" content="Английский язык индивидуально | Частный преподаватель">
     <meta property="og:description" content="Результативные онлайн-уроки английского. Разрушаю языковой барьер, готовлю к экзаменам. Запишитесь на пробное занятие.">
-    <!-- Укажите путь к вашему деплою, чтобы картинка подтягивалась -->
     <meta property="og:image" content="https://leonidovkuza-prog.github.io/repetitors/assets/og-image.jpg">
 
     <!-- Twitter -->
@@ -29,6 +28,10 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Добавьте иконку, если она есть в папке -->
     <!-- <link rel="apple-touch-icon" href="assets/apple-touch-icon.png"> -->
+
+    <!-- Preload critical images to avoid layout shifts -->
+    <link rel="preload" as="image" href="assets/tutor-photo.jpg">
+    <link rel="preload" as="image" href="assets/tutor-about.jpg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,8 +74,11 @@
             </div>
             <div class="hero-visual">
                 <div class="image-wrapper">
-                    <!-- Исправленный путь к placeholder -->
-                    <img src="assets/tutor-photo.jpg" alt="Преподаватель английского языка (Placeholder)" class="hero-img">
+                    <!-- Исправленный путь к изображению с fallback -->
+                    <img src="assets/tutor-photo.jpg" 
+                         alt="Преподаватель английского языка" 
+                         class="hero-img"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23e2e8f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext fill=%22%2394a3b8%22 font-family=%22sans-serif%22 font-size=%2218%22 text-anchor=%22middle%22 x=%22200%22 y=%22200%22%3EФото преподавателя%3C/text%3E%3C/svg%3E'; this.classList.add('img-placeholder');">
                 </div>
             </div>
         </section>
@@ -188,8 +194,11 @@
                     </div>
                 </div>
                 <div class="about-visual">
-                    <!-- Исправленный путь к placeholder -->
-                    <img src="assets/tutor-about.jpg" alt="Александр, преподаватель английского (Placeholder)" class="about-img">
+                    <!-- Исправленный путь к изображению с fallback -->
+                    <img src="assets/tutor-about.jpg" 
+                         alt="Александр, преподаватель английского" 
+                         class="about-img"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22500%22%3E%3Crect fill=%22%23e2e8f0%22 width=%22400%22 height=%22500%22/%3E%3Ctext fill=%22%2394a3b8%22 font-family=%22sans-serif%22 font-size=%2218%22 text-anchor=%22middle%22 x=%22200%22 y=%22250%22%3EФото преподавателя%3C/text%3E%3C/svg%3E'; this.classList.add('img-placeholder');">
                 </div>
             </div>
         </section>
@@ -357,6 +366,31 @@
         </div>
     </footer>
 
+    <!-- Script for accordion functionality -->
     <script src="script.js"></script>
+    
+    <!-- Additional script to handle image loading errors gracefully -->
+    <script>
+        // Проверка загрузки всех изображений при инициализации страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                // Если изображение не загрузилось, применяем fallback стили
+                img.addEventListener('error', function() {
+                    console.warn(`Изображение не найдено: ${this.src}`);
+                    this.style.backgroundColor = '#e2e8f0';
+                    this.style.minHeight = '200px';
+                    this.style.display = 'flex';
+                    this.style.alignItems = 'center';
+                    this.style.justifyContent = 'center';
+                });
+                
+                // Если изображение успешно загрузилось
+                img.addEventListener('load', function() {
+                    console.log(`Изображение успешно загружено: ${this.src}`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
